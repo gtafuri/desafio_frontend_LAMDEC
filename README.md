@@ -56,6 +56,6 @@ O Vite está configurado para proxyar as rotas `/resumo`, `/cda` e `/kpis` para 
 
 - Os arquivos `.json` devem estar na pasta `data/` na raiz do projeto. A API lê diretamente desse diretório.
 
-##notas
+## notas
 - Esse projeto foi criado para um processo seletivo do LAMDEC UFRJ e utiliza os dados disponibilizados em json pelo lab. 
 - Todas as bibliotecas e dependecias foram adicionadas a esse repositório para rodarem mais facilmente quando avaliarem o projeto.
