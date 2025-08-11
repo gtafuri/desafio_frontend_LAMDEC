@@ -191,60 +191,84 @@ function Resumos() {
   )
 
   const QuantidadePie = ({height=260}:{height?:number|string}) => (
-    <div style={{width:'100%', height: height}}>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          {qtdModo === 'percentual' ? (
-            <>
-              <Pie data={pieQuantidadePercent} dataKey="pct" nameKey="name" outerRadius={'70%'} label={(p:any)=>formatPct(p.value)} labelLine={false}>
-                {pieQuantidadePercent.map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v:any, n:any)=>[formatPct(Number(v)), n]} />
-            </>
-          ) : (
-            <>
-              <Pie data={quantidadeCdas} dataKey="Quantidade" nameKey="name" outerRadius={'70%'} label={(p:any)=>formatInt(p.value)} labelLine={false}>
-                {quantidadeCdas.map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v:any, n:any)=>[formatInt(Number(v)), n]} />
-            </>
-          )}
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="chart-with-legend" style={{height:'100%'}}>
+      <div className="chart-area" style={{width:'100%', height: (typeof height === 'string' ? 'calc(100% - 6rem)' : height)}}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            {qtdModo === 'percentual' ? (
+              <>
+                <Pie data={pieQuantidadePercent} dataKey="pct" nameKey="name" outerRadius={'70%'} label={false} labelLine={false}>
+                  {pieQuantidadePercent.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v:any, n:any)=>[formatPct(Number(v)), n]} />
+              </>
+            ) : (
+              <>
+                <Pie data={quantidadeCdas} dataKey="Quantidade" nameKey="name" outerRadius={'70%'} label={false} labelLine={false}>
+                  {quantidadeCdas.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v:any, n:any)=>[formatInt(Number(v)), n]} />
+              </>
+            )}
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <ul className="pie-legend">
+        {(qtdModo === 'percentual' ? pieQuantidadePercent : quantidadeCdas).map((x:any, index:number) => (
+          <li key={x.name} className="pie-legend-item">
+            <span className="swatch" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+            <span className="name">{x.name}</span>
+            <span className="value">
+              {qtdModo === 'percentual' ? formatPct(Number(x.pct || 0)) : formatInt(Number(x.Quantidade || 0))}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 
   const SaldoPie = ({height=260}:{height?:number|string}) => (
-    <div style={{width:'100%', height: height}}>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          {saldoModo === 'percentual' ? (
-            <>
-              <Pie data={pieSaldoPercent} dataKey="pct" nameKey="name" outerRadius={'70%'} label={(p:any)=>formatPct(p.value)} labelLine={false}>
-                {pieSaldoPercent.map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v:any, n:any)=>[formatPct(Number(v)), n]} />
-            </>
-          ) : (
-            <>
-              <Pie data={saldoCdas} dataKey="Saldo" nameKey="name" outerRadius={'70%'} label={(p:any)=>formatCurrency(p.value)} labelLine={false}>
-                {saldoCdas.map((_, index) => (
-                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip formatter={(v:any, n:any)=>[formatCurrency(Number(v)), n]} />
-            </>
-          )}
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="chart-with-legend" style={{height:'100%'}}>
+      <div className="chart-area" style={{width:'100%', height: (typeof height === 'string' ? 'calc(100% - 6rem)' : height)}}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            {saldoModo === 'percentual' ? (
+              <>
+                <Pie data={pieSaldoPercent} dataKey="pct" nameKey="name" outerRadius={'70%'} label={false} labelLine={false}>
+                  {pieSaldoPercent.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v:any, n:any)=>[formatPct(Number(v)), n]} />
+              </>
+            ) : (
+              <>
+                <Pie data={saldoCdas} dataKey="Saldo" nameKey="name" outerRadius={'70%'} label={false} labelLine={false}>
+                  {saldoCdas.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v:any, n:any)=>[formatCurrency(Number(v)), n]} />
+              </>
+            )}
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <ul className="pie-legend">
+        {(saldoModo === 'percentual' ? pieSaldoPercent : saldoCdas).map((x:any, index:number) => (
+          <li key={x.name} className="pie-legend-item">
+            <span className="swatch" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+            <span className="name">{x.name}</span>
+            <span className="value">
+              {saldoModo === 'percentual' ? formatPct(Number(x.pct || 0)) : formatCurrency(Number(x.Saldo || 0))}
+            </span>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 
@@ -353,7 +377,7 @@ function Resumos() {
           </div>
           <div className="kpi">
             <div className="kpi-icon">𐄷</div>
-            <div className="kpi-value">{formatNumberMagnitude((qtdEmCobrancaTotal ?? qtdTotal))}</div>
+            <div className="kpi-value">{formatNumberMagnitude(qtdTotal)}</div>
             <div className="kpi-label">Volume de CDAs em cobrança</div>
           </div>
         </section>
